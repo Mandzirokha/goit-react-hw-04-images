@@ -1,3 +1,5 @@
+import { Component } from 'react';
+// import { toast } from 'react-toastify';
 import {
   FormButton,
   Header,
@@ -6,21 +8,45 @@ import {
   Input,
 } from './Searchbar.styled';
 
-export const SearchBar = ({ onSubmit }) => {
-  return (
-    <Header>
-      <SearchForm>
-        <FormButton type="submit">
-          <ButtonLabel>Search</ButtonLabel>
-        </FormButton>
+export default class SearchBar extends Component {
+  state = {
+    imageName: '',
+  };
 
-        <Input
-          type="text"
-          autocomplete="off"
-          autoFocus
-          placeholder="Search images and photos"
-        />
-      </SearchForm>
-    </Header>
-  );
-};
+  handleNameChange = e => {
+    this.setState({ imageName: e.currentTarget.value.toLowerCase() });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+
+    if (this.state.imageName.trim() === '') {
+      // toast.error('Введите имя покемона.');
+      return;
+    }
+
+    this.props.onSubmit(this.state.imageName);
+    this.setState({ imageName: '' });
+  };
+
+  render() {
+    return (
+      <Header>
+        <SearchForm onSubmit={this.handleSubmit}>
+          <FormButton type="submit">
+            <ButtonLabel>Search</ButtonLabel>
+          </FormButton>
+
+          <Input
+            type="text"
+            autocomplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+            value={this.state.imageName}
+            onChange={this.handleNameChange}
+          />
+        </SearchForm>
+      </Header>
+    );
+  }
+}

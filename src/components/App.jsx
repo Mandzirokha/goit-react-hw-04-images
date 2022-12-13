@@ -1,11 +1,18 @@
-import { Gallery } from './ImageGallery/ImageGallery.styled';
-import { SearchBar } from './Searchbar/Searchbar';
+import { Component } from 'react';
+import { ImageGallery } from './ImageGallery/ImageGallery';
+import SearchBar from './Searchbar/Searchbar';
 
-export const App = () => {
-  return (
-    <>
-      <SearchBar />
-      <Gallery />
-    </>
-  );
-};
+export default class App extends Component {
+  state = {
+    imageName: '',
+  };
+
+  render() {
+    return (
+      <div>
+        <SearchBar />
+        <ImageGallery />
+      </div>
+    );
+  }
+}
