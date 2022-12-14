@@ -21,7 +21,8 @@ export default class SearchBar extends Component {
     e.preventDefault();
 
     if (this.state.imageName.trim() === '') {
-      // toast.error('Введите имя покемона.');
+      // toast.error('Please, enter a request.');
+      alert('Please, enter request');
       return;
     }
 
