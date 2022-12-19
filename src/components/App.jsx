@@ -1,6 +1,8 @@
 import { Component } from 'react';
+import { FallingLines } from 'react-loader-spinner';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import SearchBar from './Searchbar/Searchbar';
+import { Button } from './Button/Button';
 import { getImages } from 'utils/api';
 
 export default class App extends Component {
@@ -43,7 +45,11 @@ export default class App extends Component {
     }
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  loadMore = () => {
+    this.setState(prevState => ({ page: prevState.page + 1 }));
+  };
+
+  componentDidUpdate(_, prevState) {
     if (
       prevState.imageName !== this.state.imageName ||
       prevState.page !== this.state.page
@@ -53,10 +59,23 @@ export default class App extends Component {
   }
 
   render() {
+    const { images, isLoading } = this.state;
     return (
       <div>
         <SearchBar onSubmit={this.handleFormSubmit} />
-        <ImageGallery images={this.state.images} />
+        {isLoading && (
+          <FallingLines
+            color="#3f51b5"
+            width="100"
+            visible={true}
+            ariaLabel="falling-lines-loading"
+          />
+        )}
+
+        <ImageGallery images={images} />
+        {images.length > 0 && (
+          <Button onLoadMore={this.loadMore} isLoading={isLoading} />
+        )}
       </div>
     );
   }
