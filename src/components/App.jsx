@@ -4,6 +4,9 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 import SearchBar from './Searchbar/Searchbar';
 import { Button } from './Button/Button';
 import { getImages } from 'utils/api';
+import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default class App extends Component {
   state = {
@@ -30,7 +33,7 @@ export default class App extends Component {
         isLoading: false,
       }));
       if (items.length === 0) {
-        alert(
+        toast.error(
           "Sorry, we can't find anyting for your request. Please, enter another request"
         );
       }
@@ -61,15 +64,16 @@ export default class App extends Component {
   render() {
     const { images, isLoading } = this.state;
     return (
-      <div>
+      <>
         <SearchBar onSubmit={this.handleFormSubmit} />
+        <ToastContainer autoClose={3000} />
         {isLoading && <Loader />}
 
         <ImageGallery images={images} />
         {images.length > 0 && (
           <Button onLoadMore={this.loadMore} isLoading={isLoading} />
         )}
-      </div>
+      </>
     );
   }
 }

@@ -1,5 +1,6 @@
-import { Component } from 'react';
-// import { toast } from 'react-toastify';
+import React, { Component } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   FormButton,
   Header,
@@ -26,8 +27,7 @@ export default class SearchBar extends Component {
     e.preventDefault();
 
     if (this.state.imageName.trim() === '') {
-      // toast.error('Please, enter a request.');
-      alert('Please, enter request');
+      toast.error('Please, enter a request.');
       return;
     }
 
