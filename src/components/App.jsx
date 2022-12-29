@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { FallingLines } from 'react-loader-spinner';
+import { Loader } from './Loader/Loader';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import SearchBar from './Searchbar/Searchbar';
 import { Button } from './Button/Button';
@@ -63,14 +63,7 @@ export default class App extends Component {
     return (
       <div>
         <SearchBar onSubmit={this.handleFormSubmit} />
-        {isLoading && (
-          <FallingLines
-            color="#3f51b5"
-            width="100"
-            visible={true}
-            ariaLabel="falling-lines-loading"
-          />
-        )}
+        {isLoading && <Loader />}
 
         <ImageGallery images={images} />
         {images.length > 0 && (
