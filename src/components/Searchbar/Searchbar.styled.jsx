@@ -34,8 +34,8 @@ export const FormButton = styled.button`
   width: 48px;
   height: 48px;
   border: 0;
-  /* background-image: url('https://image.flaticon.com/icons/svg/149/149852.svg'); */
-  background-size: 40%;
+  background-image: url('https://img.icons8.com/ios-filled/50/000000/search--v1.png');
+  background-size: 50%;
   background-repeat: no-repeat;
   background-position: center;
   opacity: 0.6;

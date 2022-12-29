@@ -1,9 +1,6 @@
 import { Overlay, ModalBox } from './ImageModal.styled';
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { createPortal } from 'react-dom';
-
-// const modalRoot = document.querySelector('#modal-root');
 
 export class ImageModal extends Component {
   static propTypes = {
@@ -33,14 +30,12 @@ export class ImageModal extends Component {
   }
 
   render() {
-    // return createPortal(
     return (
       <Overlay onClick={this.handleBackdropClick}>
         <ModalBox>
           <img src={this.props.largeImageURL} alt={this.props.tags} />
         </ModalBox>
       </Overlay>
-      // modalRoot
     );
   }
 }
