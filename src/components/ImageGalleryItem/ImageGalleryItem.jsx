@@ -40,7 +40,7 @@ export class ImageGalleryItem extends Component {
           />
         </Item>
 
-        <Modal isOpen={openedModal}>
+        <Modal isOpen={openedModal} onRequestClose={this.toggleModal}>
           <ImageModal
             largeImageURL={largeImageURL}
             tags={tags}

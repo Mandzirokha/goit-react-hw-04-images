@@ -1,6 +1,9 @@
 import { Overlay, ModalBox } from './ImageModal.styled';
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 export class ImageModal extends Component {
   static propTypes = {
