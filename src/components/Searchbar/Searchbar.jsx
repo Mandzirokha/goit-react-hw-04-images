@@ -7,8 +7,13 @@ import {
   ButtonLabel,
   Input,
 } from './Searchbar.styled';
+import PropTypes from 'prop-types';
 
 export default class SearchBar extends Component {
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  };
+
   state = {
     imageName: '',
   };

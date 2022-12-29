@@ -2,52 +2,50 @@ import { Component } from 'react';
 import { Item, Image } from './ImageGalleryItem.styled';
 import Modal from 'react-modal';
 import { ImageModal } from 'components/Modal/ImageModal';
+import PropTypes from 'prop-types';
 
 Modal.setAppElement('#root');
 
-// export const ImageGalleryItem = ({
-//   image: { webformatURL, tags, largeImageURL },
-// }) => {
-//   return (
-//     <>
-//       <Item>
-//         <Image src={webformatURL} alt={tags} />
-//       </Item>
-
-//       <Modal>
-//         <ImageModal largeImageURL={largeImageURL} tags={tags} />
-//       </Modal>
-//     </>
-//   );
-// };
-
 export class ImageGalleryItem extends Component {
   state = {
-    openedModal: null,
+    openedModal: false,
   };
 
-  openModal = type => {
-    this.setState({ openedModal: type });
+  static propTypes = {
+    image: PropTypes.shape({
+      webformatURL: PropTypes.string.isRequired,
+      tags: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+    }),
   };
 
-  closeModal = () => {
-    this.setState({ openedModal: null });
+  toggleModal = () => {
+    this.setState(({ openedModal }) => ({
+      openedModal: !openedModal,
+    }));
   };
 
   render() {
-    const { webformatURL, tags, largeImageURL } = this.props.image;
+    const { openedModal } = this.state;
+    const {
+      image: { webformatURL, tags, largeImageURL },
+    } = this.props;
     return (
       <>
         <Item>
           <Image
             src={webformatURL}
             alt={tags}
-            onClick={() => this.openModal('image')}
+            onClick={() => this.toggleModal()}
           />
         </Item>
 
-        <Modal>
-          <ImageModal largeImageURL={largeImageURL} tags={tags} />
+        <Modal isOpen={openedModal}>
+          <ImageModal
+            largeImageURL={largeImageURL}
+            tags={tags}
+            onClose={this.toggleModal}
+          />
         </Modal>
       </>
     );
