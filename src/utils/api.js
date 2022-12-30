@@ -10,6 +10,14 @@ axios.defaults.params = {
 
 export const getImages = async (query, page) => {
   const response = await axios.get(`?q=${query}&page=${page}&key=${API_KEY}`);
-
-  return response.data.hits;
+  const images = response.data.hits.map(img => {
+    const { id, largeImageURL, webformatURL, tags } = img;
+    return {
+      id,
+      largeImageURL,
+      webformatURL,
+      tags,
+    };
+  });
+  return images;
 };

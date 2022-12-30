@@ -67,9 +67,8 @@ export default class App extends Component {
       <>
         <SearchBar onSubmit={this.handleFormSubmit} />
         <ToastContainer autoClose={3000} />
+        {images.length > 0 && <ImageGallery images={images} />}
         {isLoading && <Loader />}
-
-        <ImageGallery images={images} />
         {images.length > 0 && (
           <Button onLoadMore={this.loadMore} isLoading={isLoading} />
         )}
