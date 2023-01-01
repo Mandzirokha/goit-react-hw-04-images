@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { Loader } from './Loader/Loader';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import SearchBar from './Searchbar/Searchbar';
@@ -8,71 +8,60 @@ import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default class App extends Component {
-  state = {
-    imageName: '',
-    page: 1,
-    images: [],
-    error: null,
-    isLoading: false,
-  };
+const ERROR_MESSAGE = 'We were unable to get data, please try again 😇';
 
-  handleFormSubmit = imageName => {
-    this.setState({ imageName, page: 1, images: [] });
-  };
+export default function App() {
+  const [imageName, setImageName] = useState('');
+  const [page, setPage] = useState(1);
+  const [images, setImages] = useState([]);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  fetchImages = async (imageName, page) => {
+  useEffect(() => {
+    if (imageName) {
+      fetchImages(imageName, page);
+    }
+  }, [imageName, page]);
+
+  const fetchImages = async (imageName, page) => {
     try {
-      this.setState({
-        isLoading: true,
-      });
+      setIsLoading(true);
       const items = await getImages(imageName, page);
 
-      this.setState(prevState => ({
-        images: [...prevState.images, ...items],
-        isLoading: false,
-      }));
+      setImages(prevState => [...prevState, ...items]);
+      setIsLoading(false);
       if (items.length === 0) {
         toast.error(
           "Sorry, we can't find anyting for your request. Please, enter another request"
         );
       }
     } catch (error) {
-      this.setState({
-        error: error.message,
-      });
+      setError(ERROR_MESSAGE);
     } finally {
-      this.setState({
-        isLoading: false,
-      });
+      setIsLoading(false);
     }
   };
 
-  loadMore = () => {
-    this.setState(prevState => ({ page: prevState.page + 1 }));
+  const handleFormSubmit = imageName => {
+    setImageName(imageName);
+    setPage(1);
+    setImages([]);
   };
 
-  componentDidUpdate(_, prevState) {
-    if (
-      prevState.imageName !== this.state.imageName ||
-      prevState.page !== this.state.page
-    ) {
-      this.fetchImages(this.state.imageName, this.state.page);
-    }
-  }
+  const loadMore = () => {
+    setPage(prevState => prevState + 1);
+  };
 
-  render() {
-    const { images, isLoading } = this.state;
-    return (
-      <>
-        <SearchBar onSubmit={this.handleFormSubmit} />
-        <ToastContainer autoClose={3000} />
-        {images.length > 0 && <ImageGallery images={images} />}
-        {isLoading && <Loader />}
-        {images.length > 0 && (
-          <Button onLoadMore={this.loadMore} isLoading={isLoading} />
-        )}
-      </>
-    );
-  }
+  return (
+    <>
+      <SearchBar onSubmit={handleFormSubmit} />
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <ToastContainer autoClose={3000} />
+      {images.length > 0 && <ImageGallery images={images} />}
+      {isLoading && <Loader />}
+      {images.length > 0 && (
+        <Button onLoadMore={loadMore} isLoading={isLoading} />
+      )}
+    </>
+  );
 }
