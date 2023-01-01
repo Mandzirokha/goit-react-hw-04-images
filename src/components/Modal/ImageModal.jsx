@@ -1,44 +1,27 @@
 import { Overlay, ModalBox } from './ImageModal.styled';
-import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
 
-export class ImageModal extends Component {
-  static propTypes = {
-    onClose: PropTypes.func.isRequired,
-    largeImageURL: PropTypes.string.isRequired,
-    tags: PropTypes.string.isRequired,
-  };
-
-  handleKeyDown = e => {
-    if (e.code === 'Escape') {
-      this.props.onClose();
-    }
-  };
-
-  handleBackdropClick = e => {
+export const ImageModal = ({ onClose, largeImageURL, tags }) => {
+  const handleBackdropClick = e => {
     if (e.currentTarget === e.target) {
-      this.props.onClose();
+      onClose();
     }
   };
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
+  return (
+    <Overlay onClick={handleBackdropClick}>
+      <ModalBox>
+        <img src={largeImageURL} alt={tags} />
+      </ModalBox>
+    </Overlay>
+  );
+};
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-  }
-
-  render() {
-    return (
-      <Overlay onClick={this.handleBackdropClick}>
-        <ModalBox>
-          <img src={this.props.largeImageURL} alt={this.props.tags} />
-        </ModalBox>
-      </Overlay>
-    );
-  }
-}
+ImageModal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired,
+};

@@ -9,10 +9,10 @@ Modal.setAppElement('#root');
 export const ImageGalleryItem = ({
   image: { webformatURL, tags, largeImageURL },
 }) => {
-  const [openedModal, setOpenedModal] = useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   const toggleModal = () => {
-    setOpenedModal(openedModal => !openedModal);
+    setIsOpen(modalIsOpen => !modalIsOpen);
   };
 
   return (
@@ -21,7 +21,7 @@ export const ImageGalleryItem = ({
         <Image src={webformatURL} alt={tags} onClick={() => toggleModal()} />
       </Item>
 
-      <Modal isOpen={openedModal} onRequestClose={toggleModal}>
+      <Modal isOpen={modalIsOpen} onRequestClose={toggleModal}>
         <ImageModal
           largeImageURL={largeImageURL}
           tags={tags}
